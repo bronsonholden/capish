@@ -3,10 +3,12 @@ class Chef
     module Helpers
       require 'git'
 
+      # Get the path of the repo
       def repo_path
         "#{new_resource.destination}/repo.git"
       end
 
+      # Check if the repository exists
       def repo_exists?
         begin
           repo = ::Git.bare(repo_path)
