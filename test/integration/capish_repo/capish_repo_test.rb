@@ -1,10 +1,10 @@
 # # encoding: utf-8
 
-# Inspec test for recipe capish::default
+# Inspec test for resource capish_repo
 
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-describe package('git-core') do
-  it { should be_installed }
+describe directory('/var/www/capish-test') do
+  it { should exist }
 end

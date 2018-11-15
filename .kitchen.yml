@@ -18,8 +18,10 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[capish::default]
       - recipe[capish_repo_test::default]
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/capish_repo
     attributes:
