@@ -15,14 +15,16 @@ class Chef
         false
       end
 
+      # Get the hash of the current checkout HEAD
       def current_head_sha
         current = ::Git.bare("#{current_path}/.git")
         current_head = current.object('HEAD')
         current_head.sha
       end
 
+      # Get the hash of the remote HEAD
       def remote_head_sha
-        remote = ::Git.ls_remote("#{new_resource.repository}.git")
+        remote = ::Git.ls_remote("#{new_resource.repository}")
         if !new_resource.branch.nil?
           branch = remote['branches'][new_resource.branch]
           branch[:sha]
