@@ -7,22 +7,23 @@ property :mode, String, default: '0640'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
 
 default_action :deploy
-action :deploy do
-  # Deployment timestamp
-  # ts = Time.now.strftime(new_resource.timestamp_format)
 
+action :deploy do
+  action_clone
+end
+
+action :clone do
   directory new_resource.destination do
     user new_resource.user
     group new_resource.group
     mode new_resource.mode
     recursive true
-    notifies :run, 'ruby_block[clone git repo]'
   end
 
-  ruby_block 'clone git repo' do
-    action :nothing
+  ruby_block "clone repo #{new_resource.repository}" do
+    not_if { repo_exists? }
     block do
-      clone_repo
+      ::Git.clone(new_resource.repository, 'repo.git', bare: true, path: new_resource.destination)
     end
   end
 end

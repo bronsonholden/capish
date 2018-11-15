@@ -3,8 +3,17 @@ class Chef
     module Helpers
       require 'git'
 
-      def clone_repo
-        ::Git.clone(new_resource.repository, 'repo.git', bare: true, path: new_resource.destination)
+      def repo_path
+        "#{new_resource.destination}/repo.git"
+      end
+
+      def repo_exists?
+        begin
+          repo = ::Git.bare(repo_path)
+          true
+        rescue
+          false
+        end
       end
 
       # Check if the HEAD revision matches the remote branch
