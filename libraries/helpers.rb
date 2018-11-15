@@ -9,12 +9,10 @@ class Chef
 
       # Check if the repository exists
       def repo_exists?
-        begin
-          repo = ::Git.open(current_path)
-          true
-        rescue
-          false
-        end
+        ::Git.open(current_path)
+        true
+      rescue
+        false
       end
 
       def current_head_sha
@@ -25,10 +23,10 @@ class Chef
 
       def remote_head_sha
         remote = ::Git.ls_remote("#{new_resource.repository}.git")
-        if not new_resource.branch.nil? then
+        if !new_resource.branch.nil?
           branch = remote['branches'][new_resource.branch]
           branch[:sha]
-        elsif not new_resource.tag.nil? then
+        elsif !new_resource.tag.nil?
           tag = remote['tags'][new_resource.tag]
           tag[:sha]
         end
@@ -36,9 +34,7 @@ class Chef
 
       # Check if the HEAD revision matches the remote branch
       def up_to_date?
-        unless ::File.symlink?(current_path) then
-          return false
-        end
+        return false unless File.symlink?(current_path)
 
         current_head_sha == remote_head_sha
       end

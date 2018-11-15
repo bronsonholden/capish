@@ -36,9 +36,9 @@ action :checkout do
     action :nothing
     block do
       repo = ::Git.clone(new_resource.repository, ts, path: new_resource.destination)
-      if not new_resource.branch.nil? then
+      if !new_resource.branch.nil?
         repo.checkout(new_resource.branch)
-      elsif not new_resource.tag.nil? then
+      elsif !new_resource.tag.nil?
         repo.checkout(new_resource.tag)
       end
     end

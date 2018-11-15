@@ -12,6 +12,6 @@ end
 
 describe file('/var/www/capish-test/current') do
   it { should exist }
-  it { should be_symlink}
+  it { should be_symlink }
   its(:mode) { should cmp '0640' }
 end
