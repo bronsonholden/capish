@@ -3,28 +3,44 @@ class Chef
     module Helpers
       require 'git'
 
-      # Get the path of the repo
-      def repo_path
-        "#{new_resource.destination}/repo.git"
+      def current_path
+        "#{new_resource.destination}/current"
       end
 
       # Check if the repository exists
       def repo_exists?
         begin
-          repo = ::Git.bare(repo_path)
+          repo = ::Git.open(current_path)
           true
         rescue
           false
         end
       end
 
+      def current_head_sha
+        current = ::Git.bare("#{current_path}/.git")
+        current_head = current.object('HEAD')
+        current_head.sha
+      end
+
+      def remote_head_sha
+        remote = ::Git.ls_remote("#{new_resource.repository}.git")
+        if not new_resource.branch.nil? then
+          branch = remote['branches'][new_resource.branch]
+          branch[:sha]
+        elsif not new_resource.tag.nil? then
+          tag = remote['tags'][new_resource.tag]
+          tag[:sha]
+        end
+      end
+
       # Check if the HEAD revision matches the remote branch
       def up_to_date?
-        repo = ::Git.bare("#{new_resource.destination}/repo.git")
-        head = repo.object('HEAD')
-        remote = ::Git.ls_remote("#{new_resource.destination}/repo.git")
-        branch = remote['branches'][new_resource.branch]
-        branch[:sha] == head.sha
+        unless ::File.symlink?(current_path) then
+          return false
+        end
+
+        current_head_sha == remote_head_sha
       end
     end
   end

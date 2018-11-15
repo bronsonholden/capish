@@ -1,29 +1,46 @@
 property :repository, String, required: true
 property :destination, String, required: true
-property :branch, String, default: 'deploy'
+property :branch, String
+property :tag, String
 property :user, String, default: 'root'
 property :group, String, default: 'root'
 property :mode, String, default: '0640'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
 
-default_action :deploy
+default_action :checkout
 
-action :deploy do
-  action_clone
-end
+action :checkout do
+  # Deployment timestamp
+  ts = Time.now.strftime('%Y%m%d.%H%M%S%L')
+  # Resource name
+  name = "checkout repo #{new_resource.repository}"
+  # The canonical path of the new checkout
+  checkout_path = "#{new_resource.destination}/#{ts}"
 
-action :clone do
-  directory new_resource.destination do
+  directory checkout_path do
+    not_if { up_to_date? }
     user new_resource.user
     group new_resource.group
     mode new_resource.mode
     recursive true
+    notifies :create, "link[#{current_path}]"
+    notifies :run, "ruby_block[#{name}]"
   end
 
-  ruby_block "clone repo #{new_resource.repository}" do
-    not_if { repo_exists? }
+  link current_path do
+    action :nothing
+    to checkout_path
+  end
+
+  ruby_block name do
+    action :nothing
     block do
-      ::Git.clone(new_resource.repository, 'repo.git', bare: true, path: new_resource.destination)
+      repo = ::Git.clone(new_resource.repository, ts, path: new_resource.destination)
+      if not new_resource.branch.nil? then
+        repo.checkout(new_resource.branch)
+      elsif not new_resource.tag.nil? then
+        repo.checkout(new_resource.tag)
+      end
     end
   end
 end
