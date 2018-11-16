@@ -22,7 +22,7 @@ action :checkout do
   action_clone
 
   # Deployment timestamp
-  ts = Time.now.strftime('%Y%m%d.%H%M%S%L')
+  ts = Time.now.strftime(new_resource.timestamp_format)
   # Resource name
   name = "checkout repo #{new_resource.repository}"
   # The canonical path of the new checkout
