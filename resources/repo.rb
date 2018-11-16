@@ -4,12 +4,23 @@ property :branch, String
 property :tag, String
 property :user, String, default: 'root'
 property :group, String, default: 'root'
-property :mode, String, default: '0640'
+property :mode, String, default: '0755'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
 
 default_action :checkout
 
+action :clone do
+  ruby_block "clone repo #{new_resource.repository}" do
+    not_if { repo_cloned? }
+    block do
+      repo = ::Git.clone(new_resource.repository, 'repo', path: new_resource.destination, bare: true)
+    end
+  end
+end
+
 action :checkout do
+  action_clone
+
   # Deployment timestamp
   ts = Time.now.strftime('%Y%m%d.%H%M%S%L')
   # Resource name
@@ -35,8 +46,13 @@ action :checkout do
   ruby_block name do
     action :nothing
     block do
-      repo = ::Git.clone(new_resource.repository, ts, path: "#{new_resource.destination}/releases")
-      repo.checkout(new_resource.branch || new_resource.tag)
+      repo = ::Git.bare("#{new_resource.destination}/repo")
+      repo.with_working checkout_path do
+        repo.checkout(new_resource.branch)
+        repo.checkout_index(all: true)
+        repo.fetch('origin', ref: new_resource.branch || new_resource.tag)
+        repo.merge('FETCH_HEAD')
+      end
     end
   end
 end

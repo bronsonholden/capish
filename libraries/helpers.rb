@@ -7,6 +7,11 @@ class Chef
         "#{new_resource.destination}/current"
       end
 
+      def repo_cloned?
+        # TODO: Check if it's actually a repo
+        File.directory?("#{new_resource.destination}/repo")
+      end
+
       # Check if the repository exists
       def repo_exists?
         ::Git.open(current_path)
@@ -17,7 +22,7 @@ class Chef
 
       # Get the hash of the current checkout HEAD
       def current_head_sha
-        current = ::Git.bare("#{current_path}/.git")
+        current = ::Git.bare("#{new_resource.destination}/repo")
         current_head = current.object('HEAD')
         current_head.sha
       end
