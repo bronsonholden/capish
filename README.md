@@ -20,6 +20,7 @@ cookbook recipe to use the new revision/tag.
 ```rb
 capish_repo 'my repo' do
   repository 'https://github.com/paulholden2/capish'
+  deploy_key '<your SSH private key here>'
   destination '/var/www/capish'
   branch 'deploy'
 end
@@ -30,6 +31,7 @@ end
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | repository | String | true | | Your remote repository's URL. |
+| deploy_key | String | | | The deploy SSH key to use when accessing the repository. Not yet supported. |
 | destination | String | true | | The target directory for deployment. |
 | branch | String | | | Which branch to check out. If not defined, you must define a tag. |
 | tag | String | | | Which tag to check out. If not defined, you must define a branch. |
