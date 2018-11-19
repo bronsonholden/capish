@@ -14,7 +14,7 @@ action :clone do
   ruby_block "clone repo #{new_resource.repository}" do
     not_if { repo_cloned? }
     block do
-      repo = ::Git.clone(new_resource.repository, 'repo', path: new_resource.destination, bare: true)
+      ::Git.clone(new_resource.repository, 'repo', path: new_resource.destination, bare: true)
     end
   end
 end

@@ -35,7 +35,7 @@ class Chef
 
       # Get the hash of the remote HEAD
       def remote_head_sha
-        remote = ::Git.ls_remote("#{new_resource.repository}")
+        remote = ::Git.ls_remote(new_resource.repository)
         if !new_resource.branch.nil?
           branch = remote['branches'][new_resource.branch]
           branch[:sha]
