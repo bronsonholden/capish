@@ -7,6 +7,12 @@ class Chef
         "#{new_resource.destination}/current"
       end
 
+      # Get the canonical path of the new checkout
+      def checkout_path
+        ts = new_resource.timestamp.strftime(new_resource.timestamp_format)
+        "#{new_resource.destination}/releases/#{ts}"
+      end
+
       def repo_cloned?
         # TODO: Check if it's actually a repo
         File.directory?("#{new_resource.destination}/repo")

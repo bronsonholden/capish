@@ -6,6 +6,7 @@ property :user, String, default: 'root'
 property :group, String, default: 'root'
 property :mode, String, default: '0755'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
+property :timestamp, Time, default: Time.now
 
 default_action :checkout
 
@@ -21,12 +22,8 @@ end
 action :checkout do
   action_clone
 
-  # Deployment timestamp
-  ts = Time.now.strftime(new_resource.timestamp_format)
   # Resource name
   name = "checkout repo #{new_resource.repository}"
-  # The canonical path of the new checkout
-  checkout_path = "#{new_resource.destination}/releases/#{ts}"
 
   directory checkout_path do
     not_if { up_to_date? }
@@ -34,13 +31,7 @@ action :checkout do
     group new_resource.group
     mode new_resource.mode
     recursive true
-    notifies :create, "link[#{current_path}]"
     notifies :run, "ruby_block[#{name}]"
-  end
-
-  link current_path do
-    action :nothing
-    to checkout_path
   end
 
   ruby_block name do
@@ -54,6 +45,12 @@ action :checkout do
         repo.merge('FETCH_HEAD')
       end
     end
+  end
+end
+
+action :deploy do
+  link current_path do
+    to checkout_path
   end
 end
 

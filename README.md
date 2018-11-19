@@ -39,3 +39,4 @@ end
 | group | String | | root | The gruop of the checkout directories. |
 | mode | String | | 0755 | The mode to assign to checkout directories. |
 | timestamp_format | String | | %Y%m%d.%H%M%S%L | What format to use when creating checkout directories. |
+| timestamp | Time | | Time.now | The timestamp for the deployment. Default is the moment the `:checkout` action occurs. |
