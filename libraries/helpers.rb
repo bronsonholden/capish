@@ -13,6 +13,11 @@ class Chef
         "#{new_resource.destination}/releases/#{ts}"
       end
 
+      # Check if we have a checkout directory to deploy
+      def has_checkout?
+        ::File.exists?(checkout_path)
+      end
+
       def repo_cloned?
         # TODO: Check if it's actually a repo
         File.directory?("#{new_resource.destination}/repo")

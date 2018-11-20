@@ -11,6 +11,14 @@ property :timestamp, Time, default: Time.now
 default_action :checkout
 
 action :clone do
+  directory new_resource.destination do
+    user new_resource.user
+    group new_resource.group
+    mode new_resource.mode
+    action :create
+    recursive true
+  end
+
   ruby_block "clone repo #{new_resource.repository}" do
     not_if { repo_cloned? }
     block do
@@ -50,6 +58,7 @@ end
 
 action :deploy do
   link current_path do
+    only_if { has_checkout? }
     to checkout_path
   end
 end
