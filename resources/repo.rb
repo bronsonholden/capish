@@ -39,7 +39,7 @@ action :checkout do
     block do
       repo = ::Git.bare("#{new_resource.destination}/repo")
       repo.with_working checkout_path do
-        repo.checkout(new_resource.branch)
+        repo.checkout(new_resource.branch || new_resource.tag)
         repo.checkout_index(all: true)
         repo.fetch('origin', ref: new_resource.branch || new_resource.tag)
         repo.merge('FETCH_HEAD')
