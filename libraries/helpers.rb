@@ -22,13 +22,13 @@ class Chef
         "#{new_resource.destination}/releases/#{ts}"
       end
 
-      def has_deploy_key?
+      def deploy_key?
         !new_resource.deploy_key.nil?
       end
 
       # Check if we have a checkout directory to deploy
-      def has_checkout?
-        ::File.exists?(checkout_path)
+      def checkout?
+        ::File.exist?(checkout_path)
       end
 
       def repo_cloned?
@@ -38,7 +38,7 @@ class Chef
 
       # Check if the repository exists
       def repo_exists?
-        ::Git.config.git_ssh = ssh_path if has_deploy_key?
+        ::Git.config.git_ssh = ssh_path if deploy_key?
         ::Git.open(current_path)
         true
       rescue
@@ -47,7 +47,7 @@ class Chef
 
       # Get the hash of the current checkout HEAD
       def current_head_sha
-        ::Git.config.git_ssh = ssh_path if has_deploy_key?
+        ::Git.config.git_ssh = ssh_path if deploy_key?
         current = ::Git.bare("#{new_resource.destination}/repo")
         current_head = current.object('HEAD')
         current_head.sha
@@ -55,7 +55,7 @@ class Chef
 
       # Get the hash of the remote HEAD
       def remote_head_sha
-        ::Git.config.git_ssh = ssh_path if has_deploy_key?
+        ::Git.config.git_ssh = ssh_path if deploy_key?
         remote = ::Git.ls_remote(new_resource.repository)
         if !new_resource.branch.nil?
           branch = remote['branches'][new_resource.branch]
