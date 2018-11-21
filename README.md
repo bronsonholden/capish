@@ -23,10 +23,13 @@ capish_repo 'my repo' do
   deploy_key '<your SSH private key here>'
   destination '/var/www/capish'
   branch 'deploy'
+  action :checkout, :deploy # See "About :deploy" below
 end
 ```
 
 ## capish_repo
+
+#### Properties
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
@@ -40,3 +43,33 @@ end
 | mode | String | | 0755 | The mode to assign to checkout directories. |
 | timestamp_format | String | | %Y%m%d.%H%M%S%L | What format to use when creating checkout directories. |
 | timestamp | Time | | `Time.now` | The timestamp for the deployment. Default is the moment the `:checkout` action occurs. |
+
+#### Actions
+
+| Action | Default | Description |
+|--------|---------|-------------|
+| checkout | Yes | Runs the clone action, then checks out the most recent revision in your branch, or at your tag. |
+| clone | No | Clones the repo if it doesn't already exist. |
+| deploy | No | Create the `current` symlink in the destination directory, to the checkout. Does nothing if no checkout was created. |
+
+## About `:deploy`
+
+You will have to notify your capish_repo resource with the
+`:deploy` action before your code is actually deployed. This is not done
+automatically both to prevent deploying code that needs build tasks to run,
+and to avoid deploying a failed build. Typically you will do something
+like:
+
+```rb
+capish_repo 'my repo' do
+  # Repo configuration
+  ...
+  notifies :build, 'other[resource]'
+end
+
+other 'resource' do
+  # Doing my build here
+  ...
+  notifies :deploy, 'capish_repo[my repo]'
+end
+```
