@@ -12,6 +12,10 @@ class Chef
         "#{new_resource.destination}/ssh"
       end
 
+      def repo_path
+        "#{new_resource.destination}/repo"
+      end
+
       def deploy_key_path
         "#{new_resource.destination}/deploy_key"
       end
@@ -33,7 +37,7 @@ class Chef
 
       def repo_cloned?
         # TODO: Check if it's actually a repo
-        File.directory?("#{new_resource.destination}/repo")
+        File.directory?(repo_path)
       end
 
       # Check if the repository exists
@@ -48,7 +52,7 @@ class Chef
       # Get the hash of the current checkout HEAD
       def current_head_sha
         ::Git.config.git_ssh = ssh_path if deploy_key?
-        current = ::Git.bare("#{new_resource.destination}/repo")
+        current = ::Git.bare(repo_path)
         current_head = current.object('HEAD')
         current_head.sha
       end

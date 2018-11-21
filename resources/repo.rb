@@ -1,3 +1,6 @@
+# Cookbook:: capish
+# Resource:: repo
+
 property :repository, String, required: true
 property :destination, String, required: true
 property :branch, String
@@ -74,7 +77,7 @@ action :checkout do
     action :nothing
     block do
       ::Git.config.git_ssh = ssh_path if deploy_key?
-      repo = ::Git.bare("#{new_resource.destination}/repo")
+      repo = ::Git.bare(repo_path)
       repo.with_working checkout_path do
         repo.checkout(new_resource.branch || new_resource.tag)
         repo.checkout_index(all: true)
