@@ -31,7 +31,7 @@ end
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | repository | String | true | | Your remote repository's URL. |
-| deploy_key | String | | | The deploy SSH key to use when accessing the repository. Not yet supported. |
+| deploy_key | String | | | The deploy SSH key to use when accessing the repository. |
 | destination | String | true | | The target directory for deployment. |
 | branch | String | | | Which branch to check out. If not defined, you must define a tag. |
 | tag | String | | | Which tag to check out. If not defined, you must define a branch. |

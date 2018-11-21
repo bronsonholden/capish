@@ -7,6 +7,7 @@ property :group, String, default: 'root'
 property :mode, String, default: '0755'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
 property :timestamp, Time, default: Time.now
+property :deploy_key, String, sensitive: true
 
 default_action :checkout
 
@@ -19,9 +20,33 @@ action :clone do
     recursive true
   end
 
+  file ssh_path do
+    only_if { has_deploy_key? }
+    mode '0750'
+    content "#!/bin/sh\nexec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} \"$@\"\n"
+  end
+
+  file ssh_path do
+    action :delete
+    only_if { !has_deploy_key? && ::File.exist?(ssh_path) }
+  end
+
+  file deploy_key_path do
+    only_if { has_deploy_key? }
+    mode '0600'
+    sensitive true
+    content new_resource.deploy_key
+  end
+
+  file deploy_key_path do
+    action :delete
+    only_if { !has_deploy_key? && ::File.exist?(deploy_key_path) }
+  end
+
   ruby_block "clone repo #{new_resource.repository}" do
     not_if { repo_cloned? }
     block do
+      ::Git.config.git_ssh = ssh_path if has_deploy_key?
       ::Git.clone(new_resource.repository, 'repo', path: new_resource.destination, bare: true)
     end
   end
@@ -45,6 +70,7 @@ action :checkout do
   ruby_block name do
     action :nothing
     block do
+      ::Git.config.git_ssh = ssh_path if has_deploy_key?
       repo = ::Git.bare("#{new_resource.destination}/repo")
       repo.with_working checkout_path do
         repo.checkout(new_resource.branch || new_resource.tag)

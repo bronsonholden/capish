@@ -20,6 +20,7 @@ suites:
     run_list:
       - recipe[capish::default]
       - recipe[capish_repo_test::default]
+      - recipe[capish_repo_test::private]
     verifier:
       inspec_tests:
         - test/integration/default
