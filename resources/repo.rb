@@ -23,7 +23,10 @@ action :clone do
   file ssh_path do
     only_if { deploy_key? }
     mode '0750'
-    content "#!/bin/sh\nexec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} \"$@\"\n"
+    content %(
+      #!/bin/sh
+      exec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} $@
+    )
   end
 
   file ssh_path do
