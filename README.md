@@ -21,6 +21,7 @@ cookbook recipe to use the new revision/tag.
 capish_repo 'my repo' do
   repository 'https://github.com/paulholden2/capish'
   deploy_key '<your SSH private key here>'
+  checkout_alias 'staging'
   destination '/var/www/capish'
   branch 'deploy'
   action :checkout, :deploy # See "About :deploy" below
@@ -36,6 +37,7 @@ end
 | repository | String | true | | Your remote repository's URL. |
 | deploy_key | String | | | The deploy SSH key to use when accessing the repository. |
 | destination | String | true | | The target directory for deployment. |
+| checkout_alias | String | | next | The alias for checkouts, used as the working directory for tasks before the `:deploy` action is executed. |
 | branch | String | | | Which branch to check out. If not defined, you must define a tag. |
 | tag | String | | | Which tag to check out. If not defined, you must define a branch. |
 | user | String | | root | The owner of the checkout directories. |
