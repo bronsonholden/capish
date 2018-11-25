@@ -11,6 +11,7 @@ property :mode, String, default: '0755'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
 property :timestamp, Time, default: Time.now
 property :deploy_key, String, sensitive: true
+property :checkout_alias, String, default: 'next'
 
 default_action :checkout
 
@@ -71,6 +72,12 @@ action :checkout do
     mode new_resource.mode
     recursive true
     notifies :run, "ruby_block[#{name}]"
+    notifies :create, "link[#{checkout_alias_path}]"
+  end
+
+  link checkout_alias_path do
+    to checkout_path
+    action :nothing
   end
 
   ruby_block name do
@@ -92,6 +99,11 @@ action :deploy do
   link current_path do
     only_if { checkout? }
     to checkout_path
+  end
+
+  link checkout_alias_path do
+    only_if { ::File.exist?(checkout_alias_path) }
+    action :delete
   end
 end
 

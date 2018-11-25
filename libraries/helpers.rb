@@ -26,6 +26,10 @@ class Chef
         "#{new_resource.destination}/releases/#{ts}"
       end
 
+      def checkout_alias_path
+        "#{new_resource.destination}/#{new_resource.checkout_alias}"
+      end
+
       def deploy_key?
         !new_resource.deploy_key.nil?
       end
