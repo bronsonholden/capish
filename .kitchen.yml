@@ -21,8 +21,11 @@ suites:
       - recipe[capish::default]
       - recipe[capish_repo_test::default]
       - recipe[capish_repo_test::private]
+      - recipe[capish_repo_test::nodeploy]
     verifier:
       inspec_tests:
         - test/integration/default
-        - test/integration/capish_repo
+        - test/integration/capish_repo_default
+        - test/integration/capish_repo_private
+        - test/integration/capish_repo_nodeploy
     attributes:

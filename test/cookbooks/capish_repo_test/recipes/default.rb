@@ -1,6 +1,6 @@
-capish_repo 'capish test repo' do
+capish_repo '/var/www/default' do
   repository 'https://github.com/paulholden2/capish-test'
-  destination '/var/www/capish-test'
+  destination '/var/www/default'
   branch 'deploy'
   action :checkout
   notifies :run, 'ruby_block[build stub]'
@@ -12,5 +12,5 @@ ruby_block 'build stub' do
     sleep(3)
   end
   action :nothing
-  notifies :deploy, 'capish_repo[capish test repo]'
+  notifies :deploy, 'capish_repo[/var/www/default]'
 end

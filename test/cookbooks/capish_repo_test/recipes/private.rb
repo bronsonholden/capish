@@ -1,6 +1,6 @@
-capish_repo 'capish private test repo' do
+capish_repo '/var/www/private' do
   repository 'git@github.com:paulholden2/capish-test-private'
-  destination '/var/www/capish-test-private'
+  destination '/var/www/private'
   branch 'deploy'
   action :checkout
   # This key only has read access to the private testing repo
@@ -42,5 +42,5 @@ ruby_block 'build stub' do
     sleep(3)
   end
   action :nothing
-  notifies :deploy, 'capish_repo[capish private test repo]'
+  notifies :deploy, 'capish_repo[/var/www/private]'
 end
