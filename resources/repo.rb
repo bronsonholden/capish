@@ -107,6 +107,19 @@ action :deploy do
   end
 end
 
+action :unstage do
+  link checkout_alias_path do
+    only_if { ::File.exist?(checkout_alias_path) }
+    action :delete
+  end
+
+  directory checkout_path do
+    only_if { ::Dir.exist?(checkout_path) }
+    recursive true
+    action :delete
+  end
+end
+
 action_class do
   include Chef::Capish::Helpers
 end
