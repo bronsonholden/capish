@@ -3,6 +3,7 @@ class Chef
     module Helpers
       require 'git'
 
+      # Current checkout symlink
       def current_path
         "#{new_resource.destination}/current"
       end
@@ -12,10 +13,12 @@ class Chef
         "#{new_resource.destination}/ssh"
       end
 
+      # Location of the bare git repo
       def repo_path
         "#{new_resource.destination}/repo"
       end
 
+      # Where the deploy key is stored, if provided
       def deploy_key_path
         "#{new_resource.destination}/deploy_key"
       end
@@ -26,6 +29,7 @@ class Chef
         "#{new_resource.destination}/releases/#{ts}"
       end
 
+      # New checkout alias symlink
       def checkout_alias_path
         "#{new_resource.destination}/#{new_resource.checkout_alias}"
       end
@@ -39,6 +43,7 @@ class Chef
         ::File.exist?(checkout_path)
       end
 
+      # Check if the git repository has been cloned
       def repo_cloned?
         # TODO: Check if it's actually a repo
         File.directory?(repo_path)

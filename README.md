@@ -15,6 +15,8 @@ If automatically tracking a branch isn't your thing, you can use revisions
 or tags instead. Triggering a code deployment is as simple as updating your
 cookbook recipe to use the new revision/tag.
 
+Capish uses the [git](https://rubygems.org/gems/git) gem to interact with local and remote repositories.
+
 ## Example
 
 ```rb
