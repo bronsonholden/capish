@@ -46,7 +46,7 @@ class Chef
       # Check if the git repository has been cloned
       def repo_cloned?
         # TODO: Check if it's actually a repo
-        File.directory?(repo_path)
+        ::Dir.exist?(repo_path)
       end
 
       # Check if the repository exists
@@ -81,8 +81,6 @@ class Chef
 
       # Check if the HEAD revision matches the remote branch
       def up_to_date?
-        return false unless File.symlink?(current_path)
-
         current_head_sha == remote_head_sha
       end
     end

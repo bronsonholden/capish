@@ -24,13 +24,17 @@ action :clone do
     recursive true
   end
 
+
+  ssh_wrapper = %(
+    #!/bin/sh
+    exec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} "$@"
+  )
+
   file ssh_path do
+    atomic_update true
     only_if { deploy_key? }
     mode '0750'
-    content %(
-      #!/bin/sh
-      exec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} $@
-    )
+    content ssh_wrapper
   end
 
   file ssh_path do
@@ -39,6 +43,7 @@ action :clone do
   end
 
   file deploy_key_path do
+    atomic_update true
     only_if { deploy_key? }
     mode '0600'
     sensitive true
@@ -60,13 +65,15 @@ action :clone do
 end
 
 action :checkout do
+  already_cloned = repo_cloned?
   action_clone
 
   # Resource name
   name = "checkout repo #{new_resource.repository}"
 
   directory checkout_path do
-    not_if { up_to_date? }
+    # New clones should always do a checkout
+    not_if { already_cloned && up_to_date? }
     user new_resource.user
     group new_resource.group
     mode new_resource.mode

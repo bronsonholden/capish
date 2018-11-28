@@ -23,6 +23,7 @@ suites:
       - recipe[capish_repo_test::private]
       - recipe[capish_repo_test::nodeploy]
       - recipe[capish_repo_test::unstage]
+      - recipe[capish_repo_test::unstage_deployed]
     verifier:
       inspec_tests:
         - test/integration/default
@@ -30,4 +31,5 @@ suites:
         - test/integration/capish_repo_private
         - test/integration/capish_repo_nodeploy
         - test/integration/capish_repo_unstage
+        - test/integration/capish_repo_unstage_deployed
     attributes:

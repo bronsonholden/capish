@@ -3,10 +3,10 @@ capish_repo '/var/www/default' do
   destination '/var/www/default'
   branch 'deploy'
   action :checkout
-  notifies :run, 'ruby_block[build stub]'
+  notifies :run, 'ruby_block[default build stub]'
 end
 
-ruby_block 'build stub' do
+ruby_block 'default build stub' do
   block do
     # Project build...
     sleep(3)

@@ -55,6 +55,7 @@ end
 | checkout | Yes | Runs the clone action, then checks out the most recent revision in your branch, or at your tag. |
 | clone | No | Clones the repo if it doesn't already exist. |
 | deploy | No | Create the `current` symlink in the destination directory, to the checkout. Does nothing if no checkout was created. |
+| unstage | No | Removes the checkout directory and checkout alias symlink. This action does not roll back the local repo to the previous revision. You will have to push a new commit to your branch or update your tag with fixes to trigger another checkout. Execute this action if e.g. your build task fails. |
 
 ## About `:deploy`
 
