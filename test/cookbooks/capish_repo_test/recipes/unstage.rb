@@ -1,3 +1,7 @@
+# Unstage a first-time checkout. Tests that a follow-up checkout will do
+# nothing.
+
+# Fudge timestamps since they're captured by default at resource definiton
 ts = Time.now
 
 capish_repo '/var/www/unstage' do

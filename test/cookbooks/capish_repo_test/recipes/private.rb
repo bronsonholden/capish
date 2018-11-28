@@ -1,3 +1,4 @@
+# This key only has read access to the private testing repo
 rsa_key = <<~EOF
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEArwtYLP9Di5+VCk33bgfVry9UrQoFRthwYcPoiI6WjFKLMriS
@@ -33,7 +34,6 @@ capish_repo '/var/www/private' do
   destination '/var/www/private'
   branch 'deploy'
   action :checkout
-  # This key only has read access to the private testing repo
   deploy_key rsa_key
   notifies :run, 'ruby_block[private build stub]'
 end

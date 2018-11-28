@@ -1,3 +1,5 @@
+# Check out and deploy a repo, after a short build stub
+
 capish_repo '/var/www/default' do
   repository 'https://github.com/paulholden2/capish-test'
   destination '/var/www/default'
