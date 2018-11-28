@@ -5,4 +5,5 @@ source 'https://rubygems.org'
 
 group :travis do
   gem 'test-kitchen', '~> 1.2'
+  gem 'kitchen-inspec'
 end
