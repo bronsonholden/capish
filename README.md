@@ -1,5 +1,7 @@
 # capish
 
+[![Build Status](https://travis-ci.org/paulholden2/capish.svg?branch=master)](https://travis-ci.org/paulholden2/capish)
+
 Capish is a simple cookbook for deploying code from git repositories a la
 Capistrano. A repo is set up to track a remote branch, and deploys a new
 clone when a new commit is detected.
