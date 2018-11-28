@@ -16,4 +16,4 @@ script:
   - bundle exec kitchen test
 branches:
   only:
-    - travis
+    - master
