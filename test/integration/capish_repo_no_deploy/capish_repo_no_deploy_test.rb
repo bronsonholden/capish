@@ -5,21 +5,21 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-describe directory('/var/www/nodeploy') do
+describe directory('/var/www/no_deploy') do
   it { should exist }
   it { should be_directory }
 end
 
-describe directory('/var/www/nodeploy/releases') do
+describe directory('/var/www/no_deploy/releases') do
   it { should exist }
   it { should be_directory }
 end
 
-describe file('/var/www/nodeploy/current') do
+describe file('/var/www/no_deploy/current') do
   it { should_not exist }
 end
 
-describe file('/var/www/nodeploy/next') do
+describe file('/var/www/no_deploy/next') do
   it { should exist }
   it { should be_symlink }
   its(:mode) { should cmp '0755' }
