@@ -24,7 +24,6 @@ action :clone do
     recursive true
   end
 
-
   ssh_wrapper = %(
     #!/bin/sh
     exec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} "$@"
