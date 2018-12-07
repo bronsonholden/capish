@@ -46,6 +46,6 @@ ruby_block 'unstage_deployed failed build stub' do
     sleep(3)
   end
   action :nothing
-  # Try another check out after unstaging. Should do nothing
+  # Unstage after failed build stub
   notifies :unstage, 'capish_repo[update /var/www/unstage_deployed]'
 end
