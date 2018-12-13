@@ -38,17 +38,17 @@ end
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| repository | String | true | | Your remote repository's URL. |
-| deploy_key | String | | | The deploy SSH key to use when accessing the repository. |
-| destination | String | true | | The target directory for deployment. |
-| checkout_alias | String | | next | The alias for checkouts, used as the working directory for tasks before the `:deploy` action is executed. |
-| branch | String | | | Which branch to check out. If not defined, you must define a tag. |
-| tag | String | | | Which tag to check out. If not defined, you must define a branch. |
-| user | String | | root | The owner of the checkout directories. |
-| group | String | | root | The group of the checkout directories. |
-| mode | String | | 0755 | The mode to assign to checkout directories. |
-| timestamp_format | String | | %Y%m%d.%H%M%S%L | What format to use when creating checkout directories. |
-| timestamp | Time | | `Time.now` | The timestamp for the deployment. Default is the time of resource definition. |
+| repository | String | Yes | | Your remote repository's URL. |
+| deploy_key | String | No | | The deploy SSH key to use when accessing the repository. |
+| destination | String | Yes | | The target directory for deployment. |
+| checkout_alias | String | No | next | The alias for checkouts, used as the working directory for tasks before the `:deploy` action is executed. |
+| branch | String | No | | Which branch to check out. If not defined, you must define a tag. |
+| tag | String | No | | Which tag to check out. If not defined, you must define a branch. |
+| user | String | No | root | The owner of the checkout directories. |
+| group | String | No | root | The group of the checkout directories. |
+| mode | String | No | 0755 | The mode to assign to checkout directories. |
+| timestamp_format | String | No | %Y%m%d.%H%M%S%L | What format to use when creating checkout directories. |
+| timestamp | Time | No | `Time.now` | The timestamp for the deployment. Default is the time of resource definition. |
 
 #### Actions
 
@@ -80,3 +80,7 @@ other 'resource' do
   notifies :deploy, 'capish_repo[my repo]'
 end
 ```
+
+## License
+
+Capish is licensed under the ISC license. See the LICENSE file for details.
