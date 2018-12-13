@@ -22,6 +22,7 @@ suites:
       - recipe[capish_repo_test::default]
       - recipe[capish_repo_test::private]
       - recipe[capish_repo_test::no_deploy]
+      - recipe[capish_repo_test::commit]
       - recipe[capish_repo_test::unstage]
       - recipe[capish_repo_test::unstage_deployed]
     verifier:
@@ -30,6 +31,7 @@ suites:
         - test/integration/capish_repo_default
         - test/integration/capish_repo_private
         - test/integration/capish_repo_no_deploy
+        - test/integration/capish_repo_commit
         - test/integration/capish_repo_unstage
         - test/integration/capish_repo_unstage_deployed
     attributes:

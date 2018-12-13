@@ -68,6 +68,8 @@ class Chef
 
       # Get the hash of the remote HEAD
       def remote_head_sha
+        return new_resource.commit unless new_resource.commit.nil?
+
         ::Git.config.git_ssh = ssh_path if deploy_key?
         remote = ::Git.ls_remote(new_resource.repository)
         if !new_resource.branch.nil?
@@ -79,7 +81,7 @@ class Chef
         end
       end
 
-      # Check if the HEAD revision matches the remote branch
+      # Check if the HEAD commit hash matches the remote branch
       def up_to_date?
         current_head_sha == remote_head_sha
       end

@@ -7,13 +7,12 @@ Capistrano. A repo is set up to track a remote branch, and deploys a new
 clone when a new commit is detected.
 
 Rollbacks are not supported; to roll back to an earlier version
-of the code, force push to your tracking branch so it points to the desired
-revision, or use tags instead. New checkout directories are created both to
-encourage maintaining a stateless app and to abandon any existing cached
-files like compiled scripts and stylesheets, etc. so they can be rebuilt
-in a fresh directory.
+of the code, force push to your remote branch or use tags instead. New
+checkout directories are created both to encourage maintaining a stateless
+app and to abandon any existing cached files like compiled scripts and
+stylesheets, etc. so they can be rebuilt in a fresh directory.
 
-If automatically tracking a branch isn't your thing, you can use revisions
+If automatically tracking a branch isn't your thing, you can use hashes
 or tags instead. Triggering a code deployment is as simple as updating your
 cookbook recipe to use the new revision/tag.
 
@@ -42,8 +41,9 @@ end
 | deploy_key | String | No | | The deploy SSH key to use when accessing the repository. |
 | destination | String | Yes | | The target directory for deployment. |
 | checkout_alias | String | No | next | The alias for checkouts, used as the working directory for tasks before the `:deploy` action is executed. |
-| branch | String | No | | Which branch to check out. If not defined, you must define a tag. |
-| tag | String | No | | Which tag to check out. If not defined, you must define a branch. |
+| branch | String | No | | Which branch to check out. If not defined, you must define a tag or commit hash. |
+| tag | String | No | | Which tag to check out. If not defined, you must define a branch or commit hash. |
+| commit | String | No | | The SHA hash of the commit to deploy. If you're concerned with abbreviated hash collisions (you will most likely never have this issue), just use tags or provide the full hash value. If not defined, you must define a branch or tag. |
 | user | String | No | root | The owner of the checkout directories. |
 | group | String | No | root | The group of the checkout directories. |
 | mode | String | No | 0755 | The mode to assign to checkout directories. |

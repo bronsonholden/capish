@@ -5,6 +5,7 @@ property :repository, String, required: true
 property :destination, String, required: true
 property :branch, String
 property :tag, String
+property :commit, String
 property :user, String, default: 'root'
 property :group, String, default: 'root'
 property :mode, String, default: '0755'
@@ -92,10 +93,14 @@ action :checkout do
       ::Git.config.git_ssh = ssh_path if deploy_key?
       repo = ::Git.bare(repo_path)
       repo.with_working checkout_path do
-        repo.checkout(new_resource.branch || new_resource.tag)
+        ref = new_resource.commit || new_resource.branch || new_resource.tag
+        repo.checkout(ref)
         repo.checkout_index(all: true)
-        repo.fetch('origin', ref: new_resource.branch || new_resource.tag)
-        repo.merge('FETCH_HEAD')
+
+        if new_resource.commit.nil?
+          repo.fetch('origin', ref: ref)
+          repo.merge('FETCH_HEAD')
+        end
       end
     end
   end
