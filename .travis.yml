@@ -11,6 +11,7 @@ sudo: required
 dist: xenial
 bundler_args: --with='travis'
 before_install:
+  - gem install bundler
   - sudo usermod -p "`openssl passwd -1 'travis'`" travis
 script:
   - bundle exec kitchen test
