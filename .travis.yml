@@ -6,12 +6,11 @@ env:
     - MACHINE_PORT=22
     - KITCHEN_YAML=.kitchen.travis.yml
 rvm:
-  - 2.1.7
+  - 2.6.0
 sudo: required
 dist: xenial
 bundler_args: --with='travis'
 before_install:
-  - gem install bundler
   - sudo usermod -p "`openssl passwd -1 'travis'`" travis
 script:
   - bundle exec kitchen test
