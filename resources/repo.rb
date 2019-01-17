@@ -25,6 +25,13 @@ action :clone do
     recursive true
   end
 
+  directory releases_path do
+    user new_resource.user
+    group new_resource.group
+    mode new_resource.mode
+    action :create
+  end
+
   ssh_wrapper = %(
     #!/bin/sh
     exec /usr/bin/ssh -o StrictHostKeyChecking=no -i #{deploy_key_path} "$@"

@@ -23,10 +23,14 @@ class Chef
         "#{new_resource.destination}/deploy_key"
       end
 
+      def releases_path
+        "#{new_resource.destination}/releases"
+      end
+
       # Get the canonical path of the new checkout
       def checkout_path
         ts = new_resource.timestamp.strftime(new_resource.timestamp_format)
-        "#{new_resource.destination}/releases/#{ts}"
+        "#{releases_path}/#{ts}"
       end
 
       # New checkout alias symlink

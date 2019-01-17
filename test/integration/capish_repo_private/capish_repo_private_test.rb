@@ -8,14 +8,14 @@
 describe directory('/var/www/private') do
   it { should exist }
   it { should be_directory }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
 describe directory('/var/www/private/releases') do
   it { should exist }
   it { should be_directory }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
@@ -30,13 +30,13 @@ end
 describe file('/var/www/private/deploy_key') do
   it { should exist }
   its(:mode) { should cmp '0600' }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
 describe file('/var/www/private/ssh') do
   it { should exist }
   its(:mode) { should cmp '0750' }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end

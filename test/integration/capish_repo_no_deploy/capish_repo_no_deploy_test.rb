@@ -8,21 +8,19 @@
 describe directory('/var/www/no_deploy') do
   it { should exist }
   it { should be_directory }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
 describe directory('/var/www/no_deploy/releases') do
   it { should exist }
   it { should be_directory }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
 describe file('/var/www/no_deploy/current') do
   it { should_not exist }
-  its(:owner) { should eq 'capish' }
-  its(:group) { should eq 'capish' }
 end
 
 describe file('/var/www/no_deploy/next') do

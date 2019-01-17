@@ -8,14 +8,14 @@
 describe directory('/var/www/unstage') do
   it { should exist }
   it { should be_directory }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
 describe directory('/var/www/unstage/releases') do
   it { should exist }
   it { should be_directory }
-  its(:user) { should eq 'capish' }
+  its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
 
@@ -27,8 +27,6 @@ end
 
 describe file('/var/www/unstage/current') do
   it { should_not exist }
-  its(:owner) { should eq 'capish' }
-  its(:group) { should eq 'capish' }
 end
 
 describe file('/var/www/unstage/next') do
