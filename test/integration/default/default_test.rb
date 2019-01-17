@@ -8,3 +8,7 @@
 describe package('git-core') do
   it { should be_installed }
 end
+
+describe user('capish') do
+  it { should exist }
+end

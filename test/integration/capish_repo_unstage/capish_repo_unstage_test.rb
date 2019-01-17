@@ -8,11 +8,15 @@
 describe directory('/var/www/unstage') do
   it { should exist }
   it { should be_directory }
+  its(:user) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
 end
 
 describe directory('/var/www/unstage/releases') do
   it { should exist }
   it { should be_directory }
+  its(:user) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
 end
 
 # No support for be_empty on directory resources, so we'll make do with
@@ -23,6 +27,8 @@ end
 
 describe file('/var/www/unstage/current') do
   it { should_not exist }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
 end
 
 describe file('/var/www/unstage/next') do

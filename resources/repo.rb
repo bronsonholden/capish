@@ -6,8 +6,8 @@ property :destination, String, required: true
 property :branch, String
 property :tag, String
 property :commit, String
-property :user, String, default: 'root'
-property :group, String, default: 'root'
+property :user, String, default: 'capish'
+property :group, String, default: 'capish'
 property :mode, String, default: '0755'
 property :timestamp_format, String, default: '%Y%m%d.%H%M%S%L'
 property :timestamp, Time, default: Time.now
@@ -33,6 +33,8 @@ action :clone do
   file ssh_path do
     atomic_update true
     only_if { deploy_key? }
+    user new_resource.user
+    group new_resource.group
     mode '0750'
     content ssh_wrapper
   end
@@ -45,6 +47,8 @@ action :clone do
   file deploy_key_path do
     atomic_update true
     only_if { deploy_key? }
+    user new_resource.user
+    group new_resource.group
     mode '0600'
     sensitive true
     content new_resource.deploy_key
@@ -84,6 +88,8 @@ action :checkout do
 
   link checkout_alias_path do
     to checkout_path
+    owner new_resource.user
+    group new_resource.group
     action :nothing
   end
 
@@ -108,6 +114,8 @@ end
 
 action :deploy do
   link current_path do
+    owner new_resource.user
+    group new_resource.group
     only_if { checkout? }
     to checkout_path
   end
@@ -125,6 +133,8 @@ action :unstage do
   end
 
   directory checkout_path do
+    user new_resource.user
+    group new_resource.group
     only_if { ::Dir.exist?(checkout_path) }
     recursive true
     action :delete
