@@ -44,8 +44,8 @@ end
 | branch | String | No | | Which branch to check out. If not defined, you must define a tag or commit hash. |
 | tag | String | No | | Which tag to check out. If not defined, you must define a branch or commit hash. |
 | commit | String | No | | The SHA hash of the commit to deploy. If you're concerned with abbreviated hash collisions (you will most likely never have this issue), just use tags or provide the full hash value. If not defined, you must define a branch or tag. |
-| user | String | No | root | The owner of the checkout directories. |
-| group | String | No | root | The group of the checkout directories. |
+| user | String | No | capish | The owner of the checkout directories. |
+| group | String | No | capish | The group of the checkout directories. |
 | mode | String | No | 0755 | The mode to assign to checkout directories. |
 | timestamp_format | String | No | %Y%m%d.%H%M%S%L | What format to use when creating checkout directories. |
 | timestamp | Time | No | `Time.now` | The timestamp for the deployment. Default is the time of resource definition. |
