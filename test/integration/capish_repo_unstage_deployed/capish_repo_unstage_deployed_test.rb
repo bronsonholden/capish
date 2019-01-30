@@ -19,6 +19,13 @@ describe directory('/var/www/unstage_deployed/releases') do
   its(:group) { should eq 'capish' }
 end
 
+describe directory('/var/www/unstage_deployed/repo') do
+  it { should exist }
+  it { should be_directory }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end
+
 # Current symlink should exist from first successful deploy
 describe file('/var/www/unstage_deployed/current') do
   it { should exist }

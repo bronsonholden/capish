@@ -19,6 +19,13 @@ describe directory('/var/www/private/releases') do
   its(:group) { should eq 'capish' }
 end
 
+describe directory('/var/www/private/repo') do
+  it { should exist }
+  it { should be_directory }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end
+
 describe file('/var/www/private/current') do
   it { should exist }
   it { should be_symlink }

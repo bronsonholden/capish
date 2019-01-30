@@ -19,6 +19,13 @@ describe directory('/var/www/no_deploy/releases') do
   its(:group) { should eq 'capish' }
 end
 
+describe directory('/var/www/no_deploy/repo') do
+  it { should exist }
+  it { should be_directory }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end
+
 describe file('/var/www/no_deploy/current') do
   it { should_not exist }
 end

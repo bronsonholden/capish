@@ -50,7 +50,7 @@ class Chef
       # Check if the git repository has been cloned
       def repo_cloned?
         # TODO: Check if it's actually a repo
-        ::Dir.exist?(repo_path)
+        ::Dir.exist?(repo_path) && !::Dir.empty?(repo_path)
       end
 
       # Check if the repository exists

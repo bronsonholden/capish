@@ -19,6 +19,13 @@ describe directory('/var/www/unstage/releases') do
   its(:group) { should eq 'capish' }
 end
 
+describe directory('/var/www/unstage/repo') do
+  it { should exist }
+  it { should be_directory }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end
+
 # No support for be_empty on directory resources, so we'll make do with
 # ensuring output of ls is empty
 describe command('ls /var/www/unstage/releases') do

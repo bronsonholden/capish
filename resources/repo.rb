@@ -18,15 +18,22 @@ default_action :checkout
 
 action :clone do
   directory new_resource.destination do
-    user new_resource.user
+    owner new_resource.user
     group new_resource.group
     mode new_resource.mode
     action :create
     recursive true
   end
 
+  directory repo_path do
+    owner new_resource.user
+    group new_resource.group
+    mode new_resource.mode
+    action :create
+  end
+
   directory releases_path do
-    user new_resource.user
+    owner new_resource.user
     group new_resource.group
     mode new_resource.mode
     action :create
@@ -40,7 +47,7 @@ action :clone do
   file ssh_path do
     atomic_update true
     only_if { deploy_key? }
-    user new_resource.user
+    owner new_resource.user
     group new_resource.group
     mode '0750'
     content ssh_wrapper
@@ -54,7 +61,7 @@ action :clone do
   file deploy_key_path do
     atomic_update true
     only_if { deploy_key? }
-    user new_resource.user
+    owner new_resource.user
     group new_resource.group
     mode '0600'
     sensitive true
@@ -85,7 +92,7 @@ action :checkout do
   directory checkout_path do
     # New clones should always do a checkout
     not_if { already_cloned && up_to_date? }
-    user new_resource.user
+    owner new_resource.user
     group new_resource.group
     mode new_resource.mode
     recursive true
@@ -140,7 +147,7 @@ action :unstage do
   end
 
   directory checkout_path do
-    user new_resource.user
+    owner new_resource.user
     group new_resource.group
     only_if { ::Dir.exist?(checkout_path) }
     recursive true
