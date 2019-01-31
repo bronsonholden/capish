@@ -123,6 +123,12 @@ action :checkout do
         end
       end
     end
+    notifies :run, 'execute[checkout owner]'
+  end
+
+  execute 'checkout owner' do
+    command "chown -R #{new_resource.user}:#{new_resource.user} #{checkout_path}"
+    action :nothing
   end
 end
 

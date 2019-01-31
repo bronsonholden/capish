@@ -47,3 +47,9 @@ describe file('/var/www/private/ssh') do
   its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
+
+describe file('/var/www/private/current/test.txt') do
+  it { should exist }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end

@@ -33,3 +33,9 @@ describe file('/var/www/default/current') do
   its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
+
+describe file('/var/www/default/current/test.txt') do
+  it { should exist }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end

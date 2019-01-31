@@ -37,3 +37,9 @@ describe file('/var/www/no_deploy/next') do
   its(:owner) { should eq 'capish' }
   its(:group) { should eq 'capish' }
 end
+
+describe file('/var/www/no_deploy/next/test.txt') do
+  it { should exist }
+  its(:owner) { should eq 'capish' }
+  its(:group) { should eq 'capish' }
+end
