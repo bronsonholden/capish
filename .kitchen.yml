@@ -25,6 +25,7 @@ suites:
       - recipe[capish_repo_test::commit]
       - recipe[capish_repo_test::unstage]
       - recipe[capish_repo_test::unstage_deployed]
+      - recipe[capish_repo_test::failed_deploy_followup]
     verifier:
       inspec_tests:
         - test/integration/default
@@ -34,4 +35,5 @@ suites:
         - test/integration/capish_repo_commit
         - test/integration/capish_repo_unstage
         - test/integration/capish_repo_unstage_deployed
+        - test/integration/capish_repo_failed_deploy_followup
     attributes:
